@@ -1,32 +1,24 @@
+import { css } from "@emotion/react";
+import { Children } from "react";
+
 type Props = {
   movieId: string | undefined;
 };
 
-const Movie: React.FC<Props> = ({ movieId }) => {
+const classes = {
+  wrap: css`
+    position: relative;
+  `,
+};
+
+const Movie: React.FC<Props> = ({ movieId, children }) => {
   return (
     <>
       {movieId != "" ? (
-        <div style={{ position: "relative" }}>
-          <button
-            style={{
-              position: "absolute",
-              right: 0,
-              top: 0,
-              padding: 0,
-              width: "50px",
-              height: "50px",
-              backgroundColor: "#c4302b",
-              borderRadius: "50%",
-              fontSize: "3rem",
-              lineHeight: 0,
-              color: "#fff",
-              textShadow: "#fff 0px 0px 1px" 
-            }}
-          >
-            ×
-          </button>
+        <div css={classes.wrap}>
+          {children}
           <iframe
-            style={{ height: "45vh", width: "45vw" }}
+            style={{ height: "49vh", width: "44.5vw" }}
             src={`https://www.youtube.com/embed/${movieId}?enablejsapi=1`}
             title="YouTube video player"
             frameBorder="0"

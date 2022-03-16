@@ -15,11 +15,17 @@
     "jsx": "preserve",
     "incremental": true,
     "baseUrl": ".",
+    "types": ["@emotion/react/types/css-prop"],
     "paths": {
       "@/*": ["src/*"],
       "/*": ["*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "extensions/background.js"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "extensions/background.js"
+  ],
   "exclude": ["node_modules"]
 }
