@@ -12,38 +12,10 @@ const Index: NextPage = () => {
     "",
     "",
   ]);
-  let db: IDBDatabase;
 
   useEffect(() => {
-    // displayMovieId.map((movieId, index) =>
-    //   movieId == undefined ? movieIds.slice(1 + index) : undefined
-    // );
-
-    let openRequest = indexedDB.open("storeUrls", 1);
-
-    openRequest.onupgradeneeded = () => {
-      db = openRequest.result;
-      // db.createObjectStore("url", { keyPath: "id" });
-      console.log(db);
-    };
-
-    openRequest.onerror = () => {
-      console.error("Error", openRequest.error);
-    };
-
-    openRequest.onsuccess = () => {
-      db = openRequest.result;
-      console.log(db);
-    };
+    
   }, []);
-
-  const createData = () => {
-    db.createObjectStore("url", { keyPath: "id" });
-  };
-
-  const deleteData = () => {
-    db.deleteObjectStore("url");
-  };
 
   const addMovieId = (url: string) => {
     setMovieIds([...movieIds, url]);
