@@ -1,0 +1,16 @@
+version: '3'
+services:
+  node:
+    build:
+      context: .
+      dockerfile: ./front/dockerfile
+    volumes:
+      - ./app:/usr/src/app
+      # - /usr/src/app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: sh -c "yarn && yarn dev"
+    ports:
+      - "3000:3000"
+  
+# docker-compose run --rm node yarn create next-app . app --typescript

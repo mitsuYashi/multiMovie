@@ -1,0 +1,20 @@
+{
+  "name": "multiMovie",
+  "description": "YouTubeの動画を複窓できます",
+  "version": "1.0.0",
+  "action": {
+    "default_title": "./dist/index.html"
+  },
+  "permissions": [
+    "bookmarks",
+    "tabs",
+    "activeTab",
+    "scripting",
+    "contextMenus"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "persisent": "false"
+  },
+  "manifest_version": 3
+}
