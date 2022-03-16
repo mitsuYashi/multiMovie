@@ -10,6 +10,7 @@
     "export": "next build && next export -o extensions/dist"
   },
   "dependencies": {
+    "@emotion/babel-plugin": "^11.7.2",
     "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.8.1",
     "@mui/material": "^5.5.1",
