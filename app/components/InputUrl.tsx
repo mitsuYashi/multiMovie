@@ -7,9 +7,7 @@ type Props = {
 };
 
 const classes = {
-  youtubeUrl: css`
-    padding: 0 10px 0 0px;
-  `,
+  youtubeUrl: css``,
 };
 
 const InputUrl: React.FC<Props> = ({ addMovieId }) => {
