@@ -8,6 +8,7 @@ type Props = {
   index: number;
   updateMovieId: (index: number) => void;
   isAutoPlayEnd: isAutoPlayEnd;
+  // onReady: (event: { target: React.SetStateAction<null> }) => void;
 };
 
 const classes = {
@@ -34,6 +35,7 @@ const Movie: React.FC<Props> = ({
   index,
   updateMovieId,
   isAutoPlayEnd,
+  // onReady,
 }) => {
   return (
     <>
@@ -47,6 +49,7 @@ const Movie: React.FC<Props> = ({
             }
             css={classes.movie}
             opts={{ playerVars: { autoplay: isAutoPlayEnd["autoplay"] } }}
+            // onReady={onReady}
           />
           {/* <iframe
             src={`https://www.youtube.com/embed/${movieId}?enablejsapi=1&autoplay=1`}
