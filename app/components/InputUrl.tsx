@@ -18,8 +18,10 @@ const InputUrl: React.FC<Props> = ({ addMovieId }) => {
     const url = urlRef.current?.value;
     if (url != null) {
       const urlNum = url.indexOf("?v=");
-      const videoId = url.substring(urlNum + 3, urlNum + 3 + 11);
-      addMovieId(videoId);
+      if (urlNum != -1) {
+        const videoId = url.substring(urlNum + 3, urlNum + 3 + 11);
+        addMovieId(videoId);
+      }
     }
     urlRef.current!.value = "";
   };

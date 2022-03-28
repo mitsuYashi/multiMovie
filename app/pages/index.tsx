@@ -9,25 +9,37 @@ import InputUrl from "/components/InputUrl";
 import ListMovie from "/components/ListMovie";
 import Movie from "/components/Movie";
 import { isAutoPlayEnd } from "../type";
+import { Button } from "@mui/material";
+
+type player = {
+  target: React.SetStateAction<player>;
+} | null;
 
 const classes = {
   movies: css`
-    height: "100vh";
+    height: 100vh;
     width: 90vw;
     display: grid;
     grid-template-columns: 45vw 45vw;
     grid-template-rows: 50vh 50vh;
+    /* overflow-y: unset; */
   `,
   flex: css`
     display: flex;
   `,
   qu: css`
+    width: 10vw;
+    height: 100vh;
     padding: 0 10px 10px 10px;
-    max-width: 10vw;
     align-items: stretch;
     flex-direction: column;
     justify-content: space-between;
   `,
+  // editButton: css`
+  //   position: fixed;
+  //   left: 10px;
+  //   bottom: 10px;
+  // `,
 };
 
 const Index: NextPage = () => {
@@ -38,9 +50,20 @@ const Index: NextPage = () => {
     end: 1,
   });
 
-  const autoPlayEndContext = createContext({ isAutoPlayEnd, setIsAutoPlayEnd });
+  const [player, setPlayer] = useState<player>(null);
 
-  useEffect(() => {}, []);
+  // const onReady = (event: { target: React.SetStateAction<null> }) => {
+  //   console.log(event.target);
+  //   setPlayer(event.target);
+  // };
+
+  // const onPlayVideo = () => {
+  //   player?.playVideo();
+  // };
+
+  // const onPauseVideo = () => {
+  //   player?.pauseVideo();
+  // };
 
   const addMovieId = (url: string) => {
     let flag = true;
@@ -56,8 +79,6 @@ const Index: NextPage = () => {
     if (flag) {
       setMovieIds([...movieIds, url]);
     }
-
-    console.log(url);
   };
 
   const updateMovieId = (index: number) => {
@@ -68,43 +89,41 @@ const Index: NextPage = () => {
         return str;
       }
     });
-
     newMovieIds.splice(4, 1);
-
     setMovieIds([...newMovieIds]);
   };
 
   return (
-    <div>
-      {console.log(movieIds)}
-      <div css={classes.flex}>
-        <div css={[classes.qu, classes.flex]}>
-          <div>
-            <InputUrl addMovieId={addMovieId} />
-            <ListMovie movieIds={movieIds} />
-          </div>
-          <Edit
-            setIsAutoPlayEnd={setIsAutoPlayEnd}
-            isAutoPlayEnd={isAutoPlayEnd}
-          />
+    <div css={classes.flex}>
+      <div css={[classes.qu, classes.flex]}>
+        <div>
+          <InputUrl addMovieId={addMovieId} />
+          <ListMovie movieIds={movieIds} />
         </div>
-        <div css={classes.movies}>
-          {movieIds.slice(0, 4).map((movieId, index) => (
-            <Movie
-              movieId={movieId}
+        {/* <Button onClick={onPlayVideo}>再生</Button> */}
+        <Edit
+          setIsAutoPlayEnd={setIsAutoPlayEnd}
+          isAutoPlayEnd={isAutoPlayEnd}
+          // css={classes.editButton}
+        />
+      </div>
+      <div css={classes.movies}>
+        {movieIds.slice(0, 4).map((movieId, index) => (
+          <Movie
+            movieId={movieId}
+            key={index}
+            index={index}
+            updateMovieId={updateMovieId}
+            isAutoPlayEnd={isAutoPlayEnd}
+            // onReady={onReady}
+          >
+            <ButtonCross
               key={index}
               index={index}
               updateMovieId={updateMovieId}
-              isAutoPlayEnd={isAutoPlayEnd}
-            >
-              <ButtonCross
-                key={index}
-                index={index}
-                updateMovieId={updateMovieId}
-              />
-            </Movie>
-          ))}
-        </div>
+            />
+          </Movie>
+        ))}
       </div>
     </div>
   );
