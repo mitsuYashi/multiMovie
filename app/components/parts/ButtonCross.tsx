@@ -9,8 +9,8 @@ type Props = {
 const classes = {
   cross: css`
     position: absolute;
-    right: 0;
-    top: 0;
+    right: 1vw;
+    top: 1vh;
     padding: 0;
     width: 50px;
     height: 50px;

@@ -1,27 +1,44 @@
-import { css } from "@emotion/react";
 import { NextPage } from "next";
-import React, { useEffect, useState } from "react";
-import ButtonCross from "/components/ButtonCross";
+import React, { createContext, useEffect, useState } from "react";
+
+import { css } from "@emotion/react";
+
+import ButtonCross from "../components/parts/ButtonCross";
+import Edit from "/components/Edit";
 import InputUrl from "/components/InputUrl";
 import ListMovie from "/components/ListMovie";
 import Movie from "/components/Movie";
+import { isAutoPlayEnd } from "../type";
 
 const classes = {
   movies: css`
-    height: "99vh";
-    width: 88vw;
+    height: "100vh";
+    width: 90vw;
     display: grid;
-    grid-template-columns: 44.5vw 44.5vw;
-    grid-template-rows: 49vh 49vh;
+    grid-template-columns: 45vw 45vw;
+    grid-template-rows: 50vh 50vh;
   `,
   flex: css`
     display: flex;
+  `,
+  qu: css`
+    padding: 0 10px 10px 10px;
     max-width: 10vw;
+    align-items: stretch;
+    flex-direction: column;
+    justify-content: space-between;
   `,
 };
 
 const Index: NextPage = () => {
   const [movieIds, setMovieIds] = useState<string[]>(["", "", "", ""]);
+
+  const [isAutoPlayEnd, setIsAutoPlayEnd] = useState<isAutoPlayEnd>({
+    autoplay: 1,
+    end: 1,
+  });
+
+  const autoPlayEndContext = createContext({ isAutoPlayEnd, setIsAutoPlayEnd });
 
   useEffect(() => {}, []);
 
@@ -61,13 +78,25 @@ const Index: NextPage = () => {
     <div>
       {console.log(movieIds)}
       <div css={classes.flex}>
-        <div>
-          <InputUrl addMovieId={addMovieId} />
-          <ListMovie movieIds={movieIds} />
+        <div css={[classes.qu, classes.flex]}>
+          <div>
+            <InputUrl addMovieId={addMovieId} />
+            <ListMovie movieIds={movieIds} />
+          </div>
+          <Edit
+            setIsAutoPlayEnd={setIsAutoPlayEnd}
+            isAutoPlayEnd={isAutoPlayEnd}
+          />
         </div>
         <div css={classes.movies}>
           {movieIds.slice(0, 4).map((movieId, index) => (
-            <Movie movieId={movieId} key={index}>
+            <Movie
+              movieId={movieId}
+              key={index}
+              index={index}
+              updateMovieId={updateMovieId}
+              isAutoPlayEnd={isAutoPlayEnd}
+            >
               <ButtonCross
                 key={index}
                 index={index}
