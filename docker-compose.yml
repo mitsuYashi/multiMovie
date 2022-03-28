@@ -36,3 +36,4 @@ services:
     command: sh -c "rm -f tmp/pids/server.pid && rails s -p 3000 -b '0.0.0.0'"
 
 # docker-compose run --rm node yarn create next-app . app --typescript
+# docker-compose run --rm api rails new . --api --databese=mysql --slip-bundle
