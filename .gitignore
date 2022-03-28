@@ -37,16 +37,17 @@ app/.vercel
 # typescript
 app/*.tsbuildinfo
 
+# Ignore db data
 /db
 
 # Ignore bundler config.
 api/.bundle
 
 # Ignore all logfiles and tempfiles.
-api/log/*
-api/tmp/*
-/!/log/.keep
-!/tmp/.keep
+api/log/
+api/tmp/
+api/!/log/.keep
+api/!/tmp/.keep
 
 # Ignore pidfiles, but keep the directory.
 /tmp/pids/*
@@ -54,8 +55,8 @@ api/tmp/*
 !/tmp/pids/.keep
 
 # Ignore uploaded files in development.
-api/storage/*
-!/storage/.keep
+api/storage/
+api/!/storage/.keep
 api/.byebug_history
 
 # Ignore master key for decrypting credentials and more.
