@@ -6,15 +6,17 @@ import {
   FormGroup,
   Switch,
 } from "@mui/material";
-import React, { useState } from "react";
-import { isAutoPlayEnd } from "../type";
+import React, { useEffect, useState } from "react";
+import { isAutoPlayEnd, User } from "../type";
+import Login from "./Login";
 
 type Props = {
   isAutoPlayEnd: isAutoPlayEnd;
   setIsAutoPlayEnd: React.Dispatch<React.SetStateAction<isAutoPlayEnd>>;
+  user: User | null;
 };
 
-const Edit: React.FC<Props> = ({ setIsAutoPlayEnd, isAutoPlayEnd }) => {
+const Edit: React.FC<Props> = ({ setIsAutoPlayEnd, isAutoPlayEnd, user }) => {
   const [open, setOpen] = useState(false);
 
   const handleClick = () => {
@@ -35,12 +37,17 @@ const Edit: React.FC<Props> = ({ setIsAutoPlayEnd, isAutoPlayEnd }) => {
     console.log(isAutoPlayEnd);
   };
 
+  useEffect(() => {
+    console.log(user);
+  }, []);
+
   return (
     <>
       <Button variant="outlined" onClick={handleClick}>
         setting
       </Button>
       <Dialog open={open} onClose={handleClose}>
+        {user != null ? <p>{user.name}</p> : <Login />}
         <DialogContent>
           <FormGroup>
             <FormControlLabel
