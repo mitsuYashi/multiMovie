@@ -37,9 +37,7 @@ const Edit: React.FC<Props> = ({ setIsAutoPlayEnd, isAutoPlayEnd, user }) => {
     console.log(isAutoPlayEnd);
   };
 
-  useEffect(() => {
-    console.log(user);
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <>
