@@ -12,3 +12,8 @@ export type firebaseResponse = {
   displayName: string;
   accessToken: string;
 };
+
+export type movie = {
+  id: string;
+  title: string;
+};
