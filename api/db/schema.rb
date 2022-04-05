@@ -13,7 +13,7 @@
 ActiveRecord::Schema.define(version: 2022_03_28_123108) do
 
   create_table "movies", primary_key: "uid", id: :string, charset: "utf8mb4", force: :cascade do |t|
-    t.text "title", null: false
+    t.text "title"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["uid"], name: "index_movies_on_uid", unique: true
@@ -28,11 +28,9 @@ ActiveRecord::Schema.define(version: 2022_03_28_123108) do
   end
 
   create_table "users", primary_key: "uid", id: :string, charset: "utf8mb4", force: :cascade do |t|
-    t.string "mail", null: false
-    t.string "name", null: false
+    t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["mail"], name: "index_users_on_mail", unique: true
     t.index ["uid"], name: "index_users_on_uid", unique: true
   end
 
