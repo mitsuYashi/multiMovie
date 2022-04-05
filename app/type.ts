@@ -7,3 +7,8 @@ export type User = {
   name: string;
   uid: string;
 };
+
+export type firebaseResponse = {
+  displayName: string;
+  accessToken: string;
+};
