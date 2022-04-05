@@ -14,3 +14,6 @@ export const fetcher = (url: string): Promise<User> => {
     })
     .then((res) => res.data);
 };
+
+export const noLoginFetcher = (url: string) =>
+  axios.get(`${process.env.originAPI}/${url}`).then((res) => res.data);

@@ -1,7 +1,8 @@
 import { css } from "@emotion/react";
 import Image from "next/image";
+import { movie } from "/type";
 type Props = {
-  movieIds: string[];
+  movies: movie[];
 };
 
 const classes = {
@@ -19,14 +20,14 @@ const classes = {
   `,
 };
 
-const ListMovie: React.FC<Props> = ({ movieIds }) => {
+const ListMovie: React.FC<Props> = ({ movies }) => {
   return (
     <div css={classes.list} className={"scrollBar"}>
-      {movieIds.slice(4).map((id, index) => (
+      {movies.slice(4).map((arr, index) => (
         <div css={classes.image} key={index}>
-          {id}
+          {arr.title}
           <Image
-            src={`https://i.ytimg.com/vi/${id}/sddefault.jpg`}
+            src={`https://i.ytimg.com/vi/${arr.id}/sddefault.jpg`}
             width={640}
             height={480}
           />

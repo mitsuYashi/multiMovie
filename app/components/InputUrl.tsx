@@ -1,9 +1,11 @@
 import { css } from "@emotion/react";
 import { TextField } from "@mui/material";
+import axios from "axios";
 import React, { useRef } from "react";
+import YoutubeDataApi from "./YoutubeDataApi";
 
 type Props = {
-  addMovieId: (url: string) => void;
+  addMovieId: (url: string, title: string) => void;
 };
 
 const classes = {
@@ -13,14 +15,40 @@ const classes = {
 const InputUrl: React.FC<Props> = ({ addMovieId }) => {
   const urlRef = useRef<HTMLInputElement>(null);
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
+  const getTitle = async (videoId: string) => {
+    let res = null;
+    try {
+      res = await axios
+        .get(`${process.env.originAPI}/movie/${videoId}`)
+        .then((res) => res.data ?? null);
+      if (res === null) {
+        const title = await YoutubeDataApi(videoId);
+        res = await axios
+          .post(`${process.env.originAPI}/movie`, {
+            movie: {
+              uid: videoId,
+              title: title,
+            },
+          })
+          .then((res) => res.data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+    return res.title;
+  };
+
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     const url = urlRef.current?.value;
     if (url != null) {
       const urlNum = url.indexOf("?v=");
       if (urlNum != -1) {
         const videoId = url.substring(urlNum + 3, urlNum + 3 + 11);
-        addMovieId(videoId);
+        const title = await getTitle(videoId);
+        console.log(title);
+        addMovieId(videoId, title);
       }
     }
     urlRef.current!.value = "";
