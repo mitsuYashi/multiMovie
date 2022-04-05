@@ -8,7 +8,7 @@ import Edit from "/components/Edit";
 import InputUrl from "/components/InputUrl";
 import ListMovie from "/components/ListMovie";
 import Movie from "/components/Movie";
-import { isAutoPlayEnd } from "../type";
+import { isAutoPlayEnd, movie } from "../type";
 import { Button } from "@mui/material";
 import { listenAuthState } from "/components/firebase";
 import { fetcher } from "/components/fetcher";
@@ -47,68 +47,70 @@ const classes = {
 
 const Index: NextPage = () => {
   const { data, error } = useSWR("user", fetcher);
-
-  const [movieIds, setMovieIds] = useState<string[]>(["", "", "", ""]);
+  const [movies, setMovies] = useState<movie[]>([
+    { id: "", title: "" },
+    { id: "", title: "" },
+    { id: "", title: "" },
+    { id: "", title: "" },
+  ]);
 
   const [isAutoPlayEnd, setIsAutoPlayEnd] = useState<isAutoPlayEnd>({
     autoplay: 1,
     end: 1,
   });
 
-  const addMovieId = (url: string) => {
+  const addMovieId = (url: string, title: string) => {
     let flag = true;
-    const newMovieIds = movieIds.map((str, index) => {
-      if (str == "" && flag == true) {
+    const newMovies = movies.map((str, index) => {
+      if (str.id == "" && flag == true) {
         flag = false;
-        return url;
+        return { id: url, title: title };
       } else {
-        return str;
+        return { id: str.id, title: str.title };
       }
     });
-    setMovieIds(newMovieIds);
+    setMovies(newMovies);
     if (flag) {
-      setMovieIds([...movieIds, url]);
+      setMovies([...movies, { id: url, title: title }]);
     }
   };
 
   const updateMovieId = (index: number) => {
-    let newMovieIds = movieIds.map((str, ind) => {
+    let newMovies = movies.map((str, ind) => {
       if (ind == index) {
-        return movieIds[4] ?? "";
+        return movies[4] ?? { id: "", title: "" };
       } else {
         return str;
       }
     });
-    newMovieIds.splice(4, 1);
-    setMovieIds([...newMovieIds]);
+    newMovies.splice(4, 1);
+    setMovies([...newMovies]);
   };
 
-  useEffect(() => {
-    console.log(data);
-  }, []);
+  useEffect(() => {}, []);
 
-  if (error) return <div>failed to load</div>;
-  if (!data) return <div>loading…</div>;
+  // if (error) return <div>failed to load</div>;
+  // if (!data) return <div>loading…</div>;
 
   return (
     <div css={classes.flex}>
       <div css={[classes.qu, classes.flex]}>
         <div>
           <InputUrl addMovieId={addMovieId} />
-          <ListMovie movieIds={movieIds} />
+          <ListMovie movies={movies} />
         </div>
         {/* <Button onClick={onPlayVideo}>再生</Button> */}
         <Edit
           setIsAutoPlayEnd={setIsAutoPlayEnd}
           isAutoPlayEnd={isAutoPlayEnd}
           // css={classes.editButton}
-          user={data}
+          user={data ?? null}
         />
       </div>
       <div css={classes.movies}>
-        {movieIds.slice(0, 4).map((movieId, index) => (
+        {movies.slice(0, 4).map((movie, index) => (
           <Movie
-            movieId={movieId}
+            movieId={movie.id}
             key={index}
             index={index}
             updateMovieId={updateMovieId}
