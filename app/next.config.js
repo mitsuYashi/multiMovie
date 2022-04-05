@@ -1,3 +1,5 @@
+const isProd = process.env.NODE_ENV === "development";
+
 /** @type {import('next').NextConfig} */
 module.exports = {
   reactStrictMode: true,
@@ -11,5 +13,8 @@ module.exports = {
   presets: ["next/babel"],
   images: {
     domains: ["i.ytimg.com"],
+  },
+  env: {
+    originAPI: isProd ? "http://localhost:3000" : "",
   },
 };

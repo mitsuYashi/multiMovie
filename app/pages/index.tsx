@@ -10,6 +10,9 @@ import ListMovie from "/components/ListMovie";
 import Movie from "/components/Movie";
 import { isAutoPlayEnd } from "../type";
 import { Button } from "@mui/material";
+import { listenAuthState } from "/components/firebase";
+import { fetcher } from "/components/fetcher";
+import useSWR from "swr";
 
 type player = {
   target: React.SetStateAction<player>;
@@ -43,27 +46,14 @@ const classes = {
 };
 
 const Index: NextPage = () => {
+  const { data, error } = useSWR("user", fetcher);
+
   const [movieIds, setMovieIds] = useState<string[]>(["", "", "", ""]);
 
   const [isAutoPlayEnd, setIsAutoPlayEnd] = useState<isAutoPlayEnd>({
     autoplay: 1,
     end: 1,
   });
-
-  const [player, setPlayer] = useState<player>(null);
-
-  // const onReady = (event: { target: React.SetStateAction<null> }) => {
-  //   console.log(event.target);
-  //   setPlayer(event.target);
-  // };
-
-  // const onPlayVideo = () => {
-  //   player?.playVideo();
-  // };
-
-  // const onPauseVideo = () => {
-  //   player?.pauseVideo();
-  // };
 
   const addMovieId = (url: string) => {
     let flag = true;
@@ -93,6 +83,13 @@ const Index: NextPage = () => {
     setMovieIds([...newMovieIds]);
   };
 
+  useEffect(() => {
+    console.log(data);
+  }, []);
+
+  if (error) return <div>failed to load</div>;
+  if (!data) return <div>loading…</div>;
+
   return (
     <div css={classes.flex}>
       <div css={[classes.qu, classes.flex]}>
@@ -105,6 +102,7 @@ const Index: NextPage = () => {
           setIsAutoPlayEnd={setIsAutoPlayEnd}
           isAutoPlayEnd={isAutoPlayEnd}
           // css={classes.editButton}
+          user={data}
         />
       </div>
       <div css={classes.movies}>
