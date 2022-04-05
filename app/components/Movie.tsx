@@ -1,10 +1,10 @@
 import { css } from "@emotion/react";
 import { Children, useState } from "react";
 import YouTube from "react-youtube";
-import { isAutoPlayEnd } from "../type";
+import { isAutoPlayEnd, movie } from "../type";
 
 type Props = {
-  movieId: string | undefined;
+  movieId: string;
   index: number;
   updateMovieId: (index: number) => void;
   isAutoPlayEnd: isAutoPlayEnd;
