@@ -47,3 +47,11 @@ export const listenAuthState = () =>
       }
     });
   });
+
+export const user = () => {
+  return getAuth().currentUser;
+};
+
+export const userToken = async () => {
+  return await getAuth().currentUser?.getIdToken();
+};
