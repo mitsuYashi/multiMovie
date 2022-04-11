@@ -1,5 +1,4 @@
 import axios from "axios";
-import useSWR from "swr";
 
 const YoutubeDataApi = async (movieId: string) => {
   const endpoint = "https://www.googleapis.com/youtube/v3/videos";

@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 import { TextField } from "@mui/material";
 import axios from "axios";
 import React, { useRef } from "react";
+import { postFetcher } from "./fetcher";
 import YoutubeDataApi from "./YoutubeDataApi";
 
 type Props = {
@@ -49,6 +50,12 @@ const InputUrl: React.FC<Props> = ({ addMovieId }) => {
         const title = await getTitle(videoId);
         console.log(title);
         addMovieId(videoId, title);
+
+        await postFetcher("playlist", {
+          playlist: {
+            movie_id: videoId,
+          },
+        });
       }
     }
     urlRef.current!.value = "";
