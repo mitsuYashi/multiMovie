@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import React, { createContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { css } from "@emotion/react";
 
@@ -8,11 +8,14 @@ import Edit from "/components/Edit";
 import InputUrl from "/components/InputUrl";
 import ListMovie from "/components/ListMovie";
 import Movie from "/components/Movie";
-import { isAutoPlayEnd, movie } from "../type";
-import { Button } from "@mui/material";
-import { listenAuthState } from "/components/firebase";
-import { fetcher } from "/components/fetcher";
+import { isAutoPlayEnd, movie, MovieList, ServerMovies } from "../type";
+import {
+  getMovieFetcher,
+  getUserFetcher,
+  putPlayListFetcher,
+} from "/components/fetcher";
 import useSWR from "swr";
+import DummyMovie from "/components/DummyMovie";
 
 type player = {
   target: React.SetStateAction<player>;
@@ -46,12 +49,20 @@ const classes = {
 };
 
 const Index: NextPage = () => {
-  const { data, error } = useSWR("user", fetcher);
-  const [movies, setMovies] = useState<movie[]>([
-    { id: "", title: "" },
-    { id: "", title: "" },
-    { id: "", title: "" },
-    { id: "", title: "" },
+  const { data: playlist, error: playlistError } = useSWR<ServerMovies>(
+    "playlist",
+    getMovieFetcher
+  );
+  const { data: user, error: userError } = useSWR<object>(
+    "user",
+    getUserFetcher
+  );
+
+  const [movies, setMovies] = useState<MovieList>([
+    // { id: "", title: "" },
+    // { id: "", title: "" },
+    // { id: "", title: "" },
+    // { id: "", title: "" },
   ]);
 
   const [isAutoPlayEnd, setIsAutoPlayEnd] = useState<isAutoPlayEnd>({
@@ -59,71 +70,89 @@ const Index: NextPage = () => {
     end: 1,
   });
 
-  const addMovieId = (url: string, title: string) => {
-    let flag = true;
-    const newMovies = movies.map((str, index) => {
-      if (str.id == "" && flag == true) {
-        flag = false;
-        return { id: url, title: title };
-      } else {
-        return { id: str.id, title: str.title };
-      }
+  const addMovie = (
+    movies: MovieList,
+    id: string,
+    title: string
+  ): MovieList => {
+    let replaced = false;
+    const tmpMovies = movies.map((movie) => {
+      if (replaced || movie != undefined) return movie;
+      return { id: id, title: title };
     });
-    setMovies(newMovies);
-    if (flag) {
-      setMovies([...movies, { id: url, title: title }]);
-    }
+
+    if (replaced) return tmpMovies;
+    return [...movies, { id: id, title: title }];
   };
 
-  const updateMovieId = (index: number) => {
+  const handleSubmit = (id: string, title: string) => {
+    setMovies(addMovie(movies, id, title));
+  };
+
+  const updateMovies = async (index: number) => {
     let newMovies = movies.map((str, ind) => {
       if (ind == index) {
-        return movies[4] ?? { id: "", title: "" };
+        return movies[4] ?? undefined;
       } else {
         return str;
       }
     });
     newMovies.splice(4, 1);
     setMovies([...newMovies]);
+    if (user) await putPlayListFetcher(`playlist/${movies[index]?.id}`);
   };
 
-  useEffect(() => {}, []);
+  const loadMovies = () => {
+    const newMovies = playlist?.reduce(
+      (prev, curr) => addMovie(prev, curr.movie_id, curr.title),
+      movies
+    );
+    if (newMovies != undefined) setMovies(newMovies);
+  };
 
-  // if (error) return <div>failed to load</div>;
-  // if (!data) return <div>loading…</div>;
+  useEffect(() => {
+    console.log(playlist);
+    loadMovies();
+  }, [playlist]);
+
+  // if (playlistError) return <div>failed to load</div>;
+  // if (!user || !playlist) return <div>loading…</div>;
+  const movieFour = [...Array(4)].map((_, i) => movies[i] ?? undefined);
 
   return (
     <div css={classes.flex}>
       <div css={[classes.qu, classes.flex]}>
         <div>
-          <InputUrl addMovieId={addMovieId} />
+          <InputUrl addMovieId={handleSubmit} />
           <ListMovie movies={movies} />
         </div>
-        {/* <Button onClick={onPlayVideo}>再生</Button> */}
         <Edit
           setIsAutoPlayEnd={setIsAutoPlayEnd}
           isAutoPlayEnd={isAutoPlayEnd}
           // css={classes.editButton}
-          user={data ?? null}
+          user={user ?? null}
         />
       </div>
       <div css={classes.movies}>
-        {movies.slice(0, 4).map((movie, index) => (
-          <Movie
-            movieId={movie.id}
-            key={index}
-            index={index}
-            updateMovieId={updateMovieId}
-            isAutoPlayEnd={isAutoPlayEnd}
-            // onReady={onReady}
-          >
-            <ButtonCross
+        {movieFour.map((movie, index) =>
+          movie == undefined ? (
+            <DummyMovie key={index} />
+          ) : (
+            <Movie
+              movieId={movie?.id}
               key={index}
               index={index}
-              updateMovieId={updateMovieId}
-            />
-          </Movie>
-        ))}
+              updateMovieId={updateMovies}
+              isAutoPlayEnd={isAutoPlayEnd}
+            >
+              <ButtonCross
+                key={index}
+                index={index}
+                updateMovieId={updateMovies}
+              />
+            </Movie>
+          )
+        )}
       </div>
     </div>
   );
