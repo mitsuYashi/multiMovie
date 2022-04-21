@@ -4,6 +4,7 @@ import {
   GoogleAuthProvider,
   onAuthStateChanged,
   signInWithPopup,
+  signOut,
 } from "firebase/auth";
 import { firebaseResponse } from "/type";
 
@@ -38,6 +39,17 @@ export const loginAuth = () =>
       });
   });
 
+export const logoutAuth = () => {
+  const auth = getAuth(app);
+  signOut(auth)
+    .then(() => {
+      console.log("logout success");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 export const listenAuthState = () =>
   new Promise<string>((resolve, reject) => {
     const auth = getAuth(app);
@@ -49,9 +61,9 @@ export const listenAuthState = () =>
   });
 
 export const user = () => {
-  return getAuth().currentUser;
+  return getAuth(app).currentUser;
 };
 
 export const userToken = async () => {
-  return await getAuth().currentUser?.getIdToken();
+  return await getAuth(app).currentUser?.getIdToken();
 };

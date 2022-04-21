@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 
 const classes = {
   noMovie: css`
-    height: 49vh;
+    height: 49.5vh;
     width: 44.5vw;
     background-color: #fafdff;
     display: flex;

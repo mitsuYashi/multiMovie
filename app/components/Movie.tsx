@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import { Children, useState } from "react";
 import YouTube from "react-youtube";
-import { isAutoPlayEnd, movie } from "../type";
+import { isAutoPlayEnd } from "../type";
 
 type Props = {
   movieId: string;
@@ -16,8 +16,8 @@ const classes = {
     position: relative;
   `,
   movie: css`
-    height: 49vh;
-    width: 44.5vw;
+    height: 50vh;
+    width: 45vw;
   `,
 };
 

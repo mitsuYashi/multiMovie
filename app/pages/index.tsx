@@ -8,14 +8,24 @@ import Edit from "/components/Edit";
 import InputUrl from "/components/InputUrl";
 import ListMovie from "/components/ListMovie";
 import Movie from "/components/Movie";
-import { isAutoPlayEnd, movie, MovieList, ServerMovies } from "../type";
 import {
   getMovieFetcher,
   getUserFetcher,
   putPlayListFetcher,
 } from "/components/fetcher";
-import useSWR from "swr";
+import { isAutoPlayEnd, MovieList, ServerMovies, User } from "../type";
 import DummyMovie from "/components/DummyMovie";
+import Profile from "/components/Profile";
+
+import useSWR from "swr";
+import useSWRImmutable from "swr/immutable";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+} from "@mui/material";
 
 type player = {
   target: React.SetStateAction<player>;
@@ -37,7 +47,7 @@ const classes = {
     width: 10vw;
     height: 100vh;
     padding: 0 10px 10px 10px;
-    align-items: stretch;
+    align-items: center;
     flex-direction: column;
     justify-content: space-between;
   `,
@@ -49,14 +59,9 @@ const classes = {
 };
 
 const Index: NextPage = () => {
-  const { data: playlist, error: playlistError } = useSWR<ServerMovies>(
-    "playlist",
-    getMovieFetcher
-  );
-  const { data: user, error: userError } = useSWR<object>(
-    "user",
-    getUserFetcher
-  );
+  const { data: playlist, error: playlistError } =
+    useSWRImmutable<ServerMovies>("playlist", getMovieFetcher);
+  const { data: user, error: userError } = useSWR<User>("user", getUserFetcher);
 
   const [movies, setMovies] = useState<MovieList>([
     // { id: "", title: "" },
@@ -69,6 +74,8 @@ const Index: NextPage = () => {
     autoplay: 1,
     end: 1,
   });
+
+  const [histryOpen, setHistryOpen] = useState(false);
 
   const addMovie = (
     movies: MovieList,
@@ -103,21 +110,50 @@ const Index: NextPage = () => {
   };
 
   const loadMovies = () => {
-    const newMovies = playlist?.reduce(
-      (prev, curr) => addMovie(prev, curr.movie_id, curr.title),
-      movies
-    );
-    if (newMovies != undefined) setMovies(newMovies);
+    if (playlist) setHistryOpen(true);
+  };
+
+  const resetMovies = () => {
+    setMovies([]);
   };
 
   useEffect(() => {
-    console.log(playlist);
     loadMovies();
   }, [playlist]);
 
-  // if (playlistError) return <div>failed to load</div>;
-  // if (!user || !playlist) return <div>loading…</div>;
+  useEffect(() => {
+    // console.log(playlist);
+  });
+
   const movieFour = [...Array(4)].map((_, i) => movies[i] ?? undefined);
+
+  const HistoryCheck = () => (
+    <Dialog open={histryOpen}>
+      <DialogContent>履歴が存在します。読み込みますか？</DialogContent>
+      <DialogActions>
+        <Button
+          onClick={() => {
+            setHistryOpen(false);
+          }}
+          color="error"
+        >
+          キャンセル
+        </Button>
+        <Button
+          onClick={() => {
+            setHistryOpen(false);
+            const newMovies = playlist?.reduce(
+              (prev, curr) => addMovie(prev, curr.movie_id, curr.title),
+              movies
+            );
+            if (newMovies != undefined) setMovies(newMovies);
+          }}
+        >
+          読み込む
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
 
   return (
     <div css={classes.flex}>
@@ -126,12 +162,21 @@ const Index: NextPage = () => {
           <InputUrl addMovieId={handleSubmit} />
           <ListMovie movies={movies} />
         </div>
-        <Edit
-          setIsAutoPlayEnd={setIsAutoPlayEnd}
-          isAutoPlayEnd={isAutoPlayEnd}
-          // css={classes.editButton}
-          user={user ?? null}
-        />
+        <div css={classes.flex}>
+          <Profile
+            user={user ?? null}
+            playlist={playlist ?? null}
+            userError={userError}
+            resetMovies={resetMovies}
+            loadMovies={loadMovies}
+          />
+          <Edit
+            setIsAutoPlayEnd={setIsAutoPlayEnd}
+            isAutoPlayEnd={isAutoPlayEnd}
+            // css={classes.editButton}
+            user={user ?? null}
+          />
+        </div>
       </div>
       <div css={classes.movies}>
         {movieFour.map((movie, index) =>
@@ -154,6 +199,7 @@ const Index: NextPage = () => {
           )
         )}
       </div>
+      <HistoryCheck />
     </div>
   );
 };
