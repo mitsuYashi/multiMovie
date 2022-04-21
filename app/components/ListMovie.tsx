@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import Image from "next/image";
 import { useState } from "react";
-import { movie, MovieList } from "/type";
+import { MovieList } from "/type";
 type Props = {
   movies: MovieList;
 };
@@ -15,9 +15,13 @@ const classes = {
     overflow-x: hidden;
   `,
   image: css`
+    margin: 10px 0;
+    padding: 10px 0 0 0;
+    background-color: #fafdff;
     width: calc(10vw - 20px - 5px);
     height: auto;
     object-fit: contain;
+    /* border-bottom: 1px solid #fafdff; */
   `,
 };
 
@@ -40,7 +44,7 @@ const ListMovie: React.FC<Props> = ({ movies }) => {
           key={index}
           // onMouseEnter={onMouseEnter(index)}
         >
-          {isHover[index] ? arr?.title.slice(0, 15) + "..." : arr?.title}
+          {arr?.title.slice(0, 15) + "..."}
           <Image
             src={`https://i.ytimg.com/vi/${arr?.id}/sddefault.jpg`}
             width={640}
