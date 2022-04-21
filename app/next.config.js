@@ -1,4 +1,4 @@
-const isProd = process.env.NODE_ENV === "development";
+const isProd = process.env.NODE_ENV !== "production";
 
 /** @type {import('next').NextConfig} */
 module.exports = {
@@ -16,5 +16,6 @@ module.exports = {
   },
   env: {
     originAPI: isProd ? "http://localhost:3000" : "",
+    apiKey: "AIzaSyCavPBkH9wuFdZrpyT3tgSDJ7J82AAy_P0",
   },
 };
