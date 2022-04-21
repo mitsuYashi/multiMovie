@@ -3,7 +3,7 @@ export type isAutoPlayEnd = {
   end: 0 | 1;
 };
 
-export type user = {
+export type User = {
   name: string;
   uid: string;
 };
@@ -13,12 +13,12 @@ export type firebaseResponse = {
   accessToken: string;
 };
 
-export type movie = {
+export type Movie = {
   id: string;
   title: string;
 };
 
-export type MovieList = (movie | undefined)[];
+export type MovieList = (Movie | undefined)[];
 
 export type ServerMoviesItem = {
   id: number;
