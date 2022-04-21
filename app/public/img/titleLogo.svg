@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="340" height="340" viewBox="0 0 340 340">
+  <g id="グループ_4" data-name="グループ 4" transform="translate(-330 -330)">
+    <circle id="楕円形_1" data-name="楕円形 1" cx="170" cy="170" r="170" transform="translate(330 330)"/>
+    <g id="グループ_2" data-name="グループ 2" transform="translate(332.301 -155.513) rotate(30)">
+      <path id="多角形_8" data-name="多角形 8" d="M50,0l50,86.667H0Z" transform="translate(513.333 450) rotate(90)" fill="#fff"/>
+      <path id="多角形_9" data-name="多角形 9" d="M25,0,50,43.333H0Z" transform="translate(470 475) rotate(90)"/>
+    </g>
+    <g id="グループ_3" data-name="グループ 3" transform="translate(329.674 -185.513) rotate(30)">
+      <path id="多角形_7" data-name="多角形 7" d="M50,0l50,86.667H0Z" transform="translate(573.333 450) rotate(90)" fill="#fff"/>
+      <path id="多角形_10" data-name="多角形 10" d="M25,0,50,43.333H0Z" transform="translate(530 475) rotate(90)"/>
+    </g>
+  </g>
+</svg>
