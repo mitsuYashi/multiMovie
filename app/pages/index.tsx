@@ -84,10 +84,13 @@ const Index: NextPage = () => {
   ): MovieList => {
     let replaced = false;
     const tmpMovies = movies.map((movie) => {
-      if (replaced || movie != undefined) return movie;
-      return { id: id, title: title };
+      if (!replaced && movie == undefined) {
+        replaced = true;
+        return { id: id, title: title };
+      } else return movie;
     });
 
+    console.log(replaced);
     if (replaced) return tmpMovies;
     return [...movies, { id: id, title: title }];
   };
@@ -159,7 +162,7 @@ const Index: NextPage = () => {
     <div css={classes.flex}>
       <div css={[classes.qu, classes.flex]}>
         <div>
-          <InputUrl addMovieId={handleSubmit} />
+          <InputUrl addMovie={handleSubmit} />
           <ListMovie movies={movies} />
         </div>
         <div css={classes.flex}>
