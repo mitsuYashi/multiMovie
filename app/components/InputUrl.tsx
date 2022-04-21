@@ -4,16 +4,17 @@ import axios from "axios";
 import React, { useRef } from "react";
 import { postFetcher } from "./fetcher";
 import YoutubeDataApi from "./YoutubeDataApi";
+import { MovieList } from "/type";
 
 type Props = {
-  addMovieId: (url: string, title: string) => void;
+  addMovie: (id: string, title: string) => void;
 };
 
 const classes = {
   youtubeUrl: css``,
 };
 
-const InputUrl: React.FC<Props> = ({ addMovieId }) => {
+const InputUrl: React.FC<Props> = ({ addMovie }) => {
   const urlRef = useRef<HTMLInputElement>(null);
 
   const getTitle = async (videoId: string) => {
@@ -49,7 +50,7 @@ const InputUrl: React.FC<Props> = ({ addMovieId }) => {
         const videoId = url.substring(urlNum + 3, urlNum + 3 + 11);
         const title = await getTitle(videoId);
         console.log(title);
-        addMovieId(videoId, title);
+        addMovie(videoId, title);
 
         await postFetcher("playlist", {
           playlist: {
