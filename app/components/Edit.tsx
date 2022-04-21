@@ -4,11 +4,21 @@ import {
   DialogContent,
   FormControlLabel,
   FormGroup,
+  IconButton,
   Switch,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { isAutoPlayEnd, User } from "../type";
-import Login from "./Login";
+import Settings from "@mui/icons-material/Settings";
+import { css } from "@emotion/react";
+import Image from "next/image";
+
+const classes = {
+  title: css`
+    display: flex;
+    justify-content: center;
+  `,
+};
 
 type Props = {
   isAutoPlayEnd: isAutoPlayEnd;
@@ -41,12 +51,19 @@ const Edit: React.FC<Props> = ({ setIsAutoPlayEnd, isAutoPlayEnd, user }) => {
 
   return (
     <>
-      <Button variant="outlined" onClick={handleClick}>
-        setting
-      </Button>
+      <IconButton onClick={handleClick}>
+        <Settings />
+      </IconButton>
       <Dialog open={open} onClose={handleClose}>
-        {user != null ? <p>{user.name}</p> : <Login />}
         <DialogContent>
+          <div css={classes.title}>
+            <Image
+              src="/img/logo.svg"
+              width="100%"
+              height={50}
+              css={classes.title}
+            />
+          </div>
           <FormGroup>
             <FormControlLabel
               control={
