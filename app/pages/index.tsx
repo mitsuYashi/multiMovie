@@ -25,7 +25,10 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
+  DialogContentText,
+  Hidden,
 } from "@mui/material";
+import Image from "next/image";
 
 type player = {
   target: React.SetStateAction<player>;
@@ -51,11 +54,13 @@ const classes = {
     flex-direction: column;
     justify-content: space-between;
   `,
-  // editButton: css`
-  //   position: fixed;
-  //   left: 10px;
-  //   bottom: 10px;
-  // `,
+  grid: css`
+    display: grid;
+  `,
+  historyMovie: css`
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    column-gap: 3px;
+  `,
 };
 
 const Index: NextPage = () => {
@@ -132,7 +137,36 @@ const Index: NextPage = () => {
 
   const HistoryCheck = () => (
     <Dialog open={histryOpen}>
-      <DialogContent>履歴が存在します。読み込みますか？</DialogContent>
+      <DialogContent>
+        <DialogContentText>
+          履歴が存在します。読み込みますか？
+        </DialogContentText>
+        <div css={[classes.grid, classes.historyMovie]}>
+          {playlist?.map((data) => (
+            <>
+              <div>
+                <p
+                  style={{
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    width: "135px",
+                    height: "1rem",
+                    lineHeight: 1.0,
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  {data.title}
+                </p>
+                <Image
+                  src={`https://i.ytimg.com/vi/${data?.movie_id}/sddefault.jpg`}
+                  width={160}
+                  height={120}
+                />
+              </div>
+            </>
+          ))}
+        </div>
+      </DialogContent>
       <DialogActions>
         <Button
           onClick={() => {
@@ -140,7 +174,7 @@ const Index: NextPage = () => {
           }}
           color="error"
         >
-          キャンセル
+          いいえ
         </Button>
         <Button
           onClick={() => {
