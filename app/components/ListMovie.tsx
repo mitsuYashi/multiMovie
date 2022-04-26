@@ -44,7 +44,19 @@ const ListMovie: React.FC<Props> = ({ movies }) => {
           key={index}
           // onMouseEnter={onMouseEnter(index)}
         >
-          {arr?.title.slice(0, 15) + "..."}
+          <p
+            style={{
+              padding: 0,
+              margin: 0,
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+              height: "1rem",
+              lineHeight: 1.0,
+              textOverflow: "ellipsis",
+            }}
+          >
+            {arr?.title}
+          </p>
           <Image
             src={`https://i.ytimg.com/vi/${arr?.id}/sddefault.jpg`}
             width={640}

@@ -1,5 +1,7 @@
 import { css } from "@emotion/react";
+import { IconButton } from "@mui/material";
 import React from "react";
+import CloseIcon from "@mui/icons-material/Close";
 
 type Props = {
   updateMovieId: (index: number) => void;
@@ -10,12 +12,12 @@ const classes = {
   cross: css`
     position: absolute;
     right: 1vw;
-    top: 1vh;
+    top: 7vh;
     padding: 0;
-    width: 50px;
-    height: 50px;
-    background-color: #c4302b;
-    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    background-color: #ffffff;
+    /* border-radius: 50%;
     font-size: 3rem;
     line-height: 0;
     color: #fff;
@@ -26,7 +28,7 @@ const classes = {
     transition: transform 0.2s;
     &:hover {
       transform: rotate(180deg);
-    }
+    } */
   `,
 };
 
@@ -36,9 +38,9 @@ const ButtonCross: React.FC<Props> = ({ updateMovieId, index }) => {
   };
 
   return (
-    <button css={classes.cross} onClick={handleClick}>
-      ×
-    </button>
+    <IconButton css={classes.cross} onClick={handleClick}>
+      <CloseIcon />
+    </IconButton>
   );
 };
 
