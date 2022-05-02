@@ -50,8 +50,6 @@ const ListMovie: React.FC<Props> = ({ movies }) => {
               margin: 0,
               overflow: "hidden",
               whiteSpace: "nowrap",
-              height: "1rem",
-              lineHeight: 1.0,
               textOverflow: "ellipsis",
             }}
           >
