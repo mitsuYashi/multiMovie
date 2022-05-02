@@ -1,37 +1,34 @@
 import { NextPage } from "next";
 import React, { useEffect, useState } from "react";
 
-import { css } from "@emotion/react";
-
 import ButtonCross from "../components/parts/ButtonCross";
 import Edit from "/components/Edit";
 import InputUrl from "/components/InputUrl";
 import ListMovie from "/components/ListMovie";
 import Movie from "/components/Movie";
+import DummyMovie from "/components/DummyMovie";
+import Profile from "/components/Profile";
 import {
   getMovieFetcher,
   getUserFetcher,
   putPlayListFetcher,
 } from "/components/fetcher";
 import { isAutoPlayEnd, MovieList, ServerMovies, User } from "../type";
-import DummyMovie from "/components/DummyMovie";
-import Profile from "/components/Profile";
 
+import { css } from "@emotion/react";
 import useSWR from "swr";
 import useSWRImmutable from "swr/immutable";
 import {
-  Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
-  Hidden,
 } from "@mui/material";
 import Image from "next/image";
 
-type player = {
-  target: React.SetStateAction<player>;
+type Player = {
+  target: React.SetStateAction<Player>;
 } | null;
 
 const classes = {
@@ -41,7 +38,6 @@ const classes = {
     display: grid;
     grid-template-columns: 45vw 45vw;
     grid-template-rows: 50vh 50vh;
-    /* overflow-y: unset; */
   `,
   flex: css`
     display: flex;
@@ -68,12 +64,7 @@ const Index: NextPage = () => {
     useSWRImmutable<ServerMovies>("playlist", getMovieFetcher);
   const { data: user, error: userError } = useSWR<User>("user", getUserFetcher);
 
-  const [movies, setMovies] = useState<MovieList>([
-    // { id: "", title: "" },
-    // { id: "", title: "" },
-    // { id: "", title: "" },
-    // { id: "", title: "" },
-  ]);
+  const [movies, setMovies] = useState<MovieList>([]);
 
   const [isAutoPlayEnd, setIsAutoPlayEnd] = useState<isAutoPlayEnd>({
     autoplay: 1,
@@ -95,7 +86,6 @@ const Index: NextPage = () => {
       } else return movie;
     });
 
-    console.log(replaced);
     if (replaced) return tmpMovies;
     return [...movies, { id: id, title: title }];
   };
@@ -129,17 +119,13 @@ const Index: NextPage = () => {
     loadMovies();
   }, [playlist]);
 
-  useEffect(() => {
-    // console.log(playlist);
-  });
-
   const movieFour = [...Array(4)].map((_, i) => movies[i] ?? undefined);
 
   const HistoryCheck = () => (
     <Dialog open={histryOpen}>
       <DialogContent>
         <DialogContentText>
-          履歴が存在します。読み込みますか？
+          前回終了時、再生中の動画が存在します。読み込みますか？
         </DialogContentText>
         <div css={[classes.grid, classes.historyMovie]}>
           {playlist?.map((data) => (
@@ -150,8 +136,6 @@ const Index: NextPage = () => {
                     overflow: "hidden",
                     whiteSpace: "nowrap",
                     width: "135px",
-                    height: "1rem",
-                    lineHeight: 1.0,
                     textOverflow: "ellipsis",
                   }}
                 >
@@ -159,8 +143,8 @@ const Index: NextPage = () => {
                 </p>
                 <Image
                   src={`https://i.ytimg.com/vi/${data?.movie_id}/sddefault.jpg`}
-                  width={160}
-                  height={120}
+                  width={640}
+                  height={480}
                 />
               </div>
             </>
