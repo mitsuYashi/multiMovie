@@ -5,6 +5,12 @@ chrome.runtime.onInstalled.addListener(() => {
     title: "multiMovie",
     contexts: ["link", "page"],
   });
+  // const aTags = document.getElementsByClassName("a");
+  // for (let i = 0; i < aTags.length; a++) {
+  //   aTags[i].addEventListener("click", (e) => {
+  //     e.preventDefault();
+  //   });
+  // }
 });
 
 chrome.contextMenus.onClicked.addListener((item) => {
