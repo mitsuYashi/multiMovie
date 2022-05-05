@@ -30,6 +30,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           href="/favicon/safari-pinned-tab.svg"
           color="#5bbad5"
         />
+        <title>MultiMovie</title>
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#ffffff" />
       </Head>
