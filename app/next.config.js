@@ -15,7 +15,9 @@ module.exports = {
     domains: ["i.ytimg.com"],
   },
   env: {
-    originAPI: isProd ? "http://localhost:3000" : "",
+    originAPI: isProd
+      ? "http://localhost:3000"
+      : "https://multimovie-production-6927.up.railway.app/",
     apiKey: "AIzaSyCavPBkH9wuFdZrpyT3tgSDJ7J82AAy_P0",
   },
 };

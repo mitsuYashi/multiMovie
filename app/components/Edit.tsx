@@ -44,7 +44,7 @@ const Edit: React.FC<Props> = ({ setIsAutoPlayEnd, isAutoPlayEnd, user }) => {
     };
     setIsAutoPlayEnd(newState);
 
-    console.log(isAutoPlayEnd);
+    // console.log(isAutoPlayEnd);
   };
 
   useEffect(() => {}, []);

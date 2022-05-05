@@ -49,7 +49,7 @@ const InputUrl: React.FC<Props> = ({ addMovie }) => {
       if (urlNum != -1) {
         const videoId = url.substring(urlNum + 3, urlNum + 3 + 11);
         const title = await getTitle(videoId);
-        console.log(title);
+        // console.log(title);
         addMovie(videoId, title);
 
         await postFetcher("playlist", {

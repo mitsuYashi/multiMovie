@@ -16,9 +16,14 @@ default: &default
   # username: root
   # password: password
   # host: db
-  username: root
-  password: m83VIcS7G3IDrxOhHfSL
-  host: containers-us-west-48.railway.app
+  host: <%= ENV['DB_HOST'] %>
+  database: <%= ENV['DB_DATABASE'] %>
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  timeout: 5000
+  # username: root
+  # password: m83VIcS7G3IDrxOhHfSL
+  # host: containers-us-west-48.railway.app
 
 development:
   <<: *default

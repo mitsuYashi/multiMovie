@@ -91,7 +91,7 @@ const Profile: React.FC<Props> = ({
       } catch (err) {
         console.log(err);
       }
-      console.log(res);
+      // console.log(res);
     });
   };
 
