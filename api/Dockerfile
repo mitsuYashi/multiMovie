@@ -14,3 +14,5 @@ ADD ./Gemfile.lock $APP_ROOT/Gemfile.lock
 
 RUN bundle install
 ADD . $APP_ROOT
+
+CMD sh -c "rails s -p ${PORT} -b '0.0.0.0'"
