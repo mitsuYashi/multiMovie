@@ -2,7 +2,7 @@ require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
 
-  config.hosts << "multimovie.up.railway.app"
+  # config.hosts << "multimovie.up.railway.app"
   config.hosts << "multi-movie.vercel.app"
   # Settings specified here will take precedence over those in config/application.rb.
 
