@@ -1,0 +1,6 @@
+steps:
+- name: 'gcr.io/kaniko-project/executor:latest'
+  args:
+    - --build-arg=BUNDLE_OPTIONS=--without development test
+    - --destination=gcr.io/weighty-triode-359415/multi-movie-image:latest
+    - --cache=true
